@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gisely Oliveira — Desenvolvedora Back-end Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b0d;
+  --bg-panel:#16161a;
+  --bg-panel-alt:#1c1618;
+  --red:#e2233d;
+  --red-deep:#7d0f22;
+  --red-glow:rgba(226,35,61,.35);
+  --text:#f5f3f0;
+  --text-dim:#a3a0a0;
+  --line:#2a2226;
+  --display:'Space Grotesk',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --body:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(circle at 15% 8%, rgba(226,35,61,.08), transparent 40%),
+    radial-gradient(circle at 85% 92%, rgba(226,35,61,.06), transparent 45%);
+}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+::selection{background:var(--red);color:#0b0b0d;}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--red-deep);border-radius:10px;}
+
+.container{max-width:1320px;margin:0 auto;padding:0 40px;}
+
+/* ---------- NAV ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  backdrop-filter:blur(10px);
+  background:rgba(11,11,13,.72);
+  border-bottom:1px solid var(--line);
+  transition:border-color .3s;
+}
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 32px;max-width:1180px;margin:0 auto;}
+.logo{font-family:var(--mono);font-weight:600;font-size:1.05rem;letter-spacing:.02em;}
+.logo span{color:var(--red);}
+.nav-links{display:flex;gap:36px;list-style:none;font-family:var(--mono);font-size:.85rem;}
+.nav-links a{position:relative;color:var(--text-dim);transition:color .25s;padding:4px 0;}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--red);transition:width .3s;}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{
+  font-family:var(--mono);font-size:.8rem;border:1px solid var(--red);color:var(--red);
+  padding:8px 18px;border-radius:2px;transition:.25s;
+}
+.nav-cta:hover{background:var(--red);color:#0b0b0d;box-shadow:0 0 22px var(--red-glow);}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+.burger span{width:24px;height:2px;background:var(--text);transition:.3s;}
+.mobile-menu{
+  display:none;position:fixed;top:60px;left:0;right:0;background:var(--bg-panel);
+  border-bottom:1px solid var(--line);padding:22px 32px;flex-direction:column;gap:18px;
+  font-family:var(--mono);z-index:99;
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--text-dim);font-size:.95rem;}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100vh;display:flex;align-items:center;padding:130px 0 70px;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center;
+}
+.eyebrow{
+  font-family:var(--mono);font-size:.78rem;color:var(--red);letter-spacing:.12em;
+  text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:18px;
+}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--red);}
+.hero h1{
+  font-family:var(--display);font-weight:700;line-height:1.01;
+  font-size:clamp(2.6rem,6.2vw,5rem);letter-spacing:-.02em;margin-bottom:24px;
+}
+.hero h1 em{font-style:normal;color:var(--red);}
+.hero p.lead{
+  font-size:1.15rem;color:var(--text-dim);max-width:580px;line-height:1.75;margin-bottom:38px;
+  font-weight:300;
+}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+.btn{
+  font-family:var(--mono);font-size:.85rem;padding:14px 26px;border-radius:2px;
+  display:inline-flex;align-items:center;gap:10px;transition:.25s;cursor:pointer;border:1px solid transparent;
+}
+.btn-primary{background:var(--red);color:#0b0b0d;font-weight:600;}
+.btn-primary:hover{box-shadow:0 0 30px var(--red-glow);transform:translateY(-2px);}
+.btn-ghost{border-color:var(--line);color:var(--text);}
+.btn-ghost:hover{border-color:var(--red);color:var(--red);}
+.btn-whats svg{fill:currentColor;}
+.btn-resume{margin-top:6px;font-size:.78rem;padding:11px 20px;}
+
+/* terminal */
+.terminal{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;
+  overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);
+}
+.terminal-bar{
+  display:flex;align-items:center;gap:8px;padding:12px 16px;background:var(--bg-panel-alt);
+  border-bottom:1px solid var(--line);
+}
+.dot{width:10px;height:10px;border-radius:50%;}
+.dot:nth-child(1){background:#e2233d;}
+.dot:nth-child(2){background:#5a4448;}
+.dot:nth-child(3){background:#3a3236;}
+.terminal-title{margin-left:auto;font-family:var(--mono);font-size:.72rem;color:var(--text-dim);}
+.terminal-body{
+  padding:22px;font-family:var(--mono);font-size:.85rem;line-height:1.9;min-height:230px;
+}
+.t-prompt{color:var(--red);}
+.t-line{color:var(--text-dim);white-space:pre-wrap;}
+.t-value{color:var(--text);}
+.cursor{display:inline-block;width:8px;height:16px;background:var(--red);vertical-align:middle;animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+/* foto de perfil */
+.avatar-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;transform:translateY(-30px);}
+.avatar-ring{
+  position:relative;width:340px;height:340px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 30% 25%, #201418, var(--bg-panel));
+  border:1px solid var(--line);
+}
+.avatar-ring::before{
+  content:'';position:absolute;inset:-8px;border-radius:50%;
+  border:1px dashed var(--red-deep);animation:spin 30s linear infinite;pointer-events:none;
+}
+.avatar-ring::after{
+  content:'';position:absolute;inset:-16px;border-radius:50%;
+  border:1px solid rgba(226,35,61,.15);pointer-events:none;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.avatar-scan{
+  position:absolute;left:6px;right:6px;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);
+  animation:scan 3s ease-in-out infinite;z-index:2;pointer-events:none;
+}
+@keyframes scan{0%,100%{top:8%;opacity:.2;}50%{top:88%;opacity:.9;}}
+.avatar-flip-wrap{
+  position:relative;z-index:3;width:88%;height:88%;perspective:1400px;cursor:pointer;border-radius:50%;
+}
+.avatar-flip-inner{
+  position:relative;width:100%;height:100%;transition:transform .9s cubic-bezier(.4,.1,.2,1);
+  transform-style:preserve-3d;
+}
+.avatar-flip-wrap:hover .avatar-flip-inner{transform:rotateY(12deg);}
+.avatar-flip-wrap.flipped .avatar-flip-inner{transform:rotateY(180deg);}
+.avatar-flip-wrap.flipped:hover .avatar-flip-inner{transform:rotateY(180deg);}
+.avatar-face{
+  position:absolute;inset:0;border-radius:50%;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.avatar-face.front{background:radial-gradient(circle at 35% 30%,#221619,var(--bg-panel));}
+.avatar-face.back{
+  transform:rotateY(180deg);
+  background:radial-gradient(circle at 65% 70%,#221619,var(--bg-panel));
+  padding:14%;
+}
+.avatar-face.back svg{width:100%;height:100%;}
+.avatar-emoji{font-size:8rem;filter:drop-shadow(0 0 18px var(--red-glow));}
+.avatar-photo{width:100%;height:100%;object-fit:cover;object-position:center;}
+.avatar-caption{font-family:var(--mono);font-size:.72rem;color:var(--text-dim);text-align:center;}
+.avatar-caption b{color:var(--red);}
+.languages-terminal{width:min(340px,100%);margin-top:4px;text-align:left;box-shadow:0 14px 30px -22px #000;}
+.languages-terminal .terminal-body{min-height:230px;padding:13px 15px;font-size:.72rem;line-height:1.9;}
+.languages-terminal .terminal-title{font-size:.65rem;}
+.languages-terminal .t-line strong{color:var(--text);font-weight:500;}
+.terminal-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:38px;}
+.terminal-row .terminal{width:100%;margin-top:0 !important;}
+
+/* ---------- SECTION SHELL ---------- */
+section{padding:130px 0;}
+.section-head{margin-bottom:56px;max-width:680px;}
+.section-num{font-family:var(--mono);color:var(--red);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;display:block;}
+.section-head h2{font-family:var(--display);font-size:clamp(2rem,3.8vw,3rem);font-weight:700;letter-spacing:-.01em;}
+.section-head p{color:var(--text-dim);margin-top:16px;line-height:1.75;font-weight:300;font-size:1.02rem;}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+/* ---------- SOBRE ---------- */
+.about-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:50px;}
+.about-text{color:var(--text-dim);line-height:1.85;font-size:1rem;font-weight:300;}
+.about-text strong{color:var(--text);font-weight:500;}
+.stat-col{display:flex;flex-direction:column;gap:22px;}
+.stat{border-left:2px solid var(--red);padding:6px 0 6px 18px;}
+.stat b{font-family:var(--display);font-size:1.8rem;display:block;}
+.stat span{font-family:var(--mono);font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;}
+.live-tag{color:var(--red);font-style:normal;margin-left:6px;font-size:.68rem;opacity:.85;}
+
+/* ---------- HABILIDADES ---------- */
+.skills-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+.work-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+.skill-card{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;padding:26px;
+  transition:.3s;
+}
+.skill-card:hover{border-color:var(--red-deep);transform:translateY(-4px);}
+.skill-card h3{font-family:var(--mono);font-size:.85rem;color:var(--red);text-transform:uppercase;letter-spacing:.06em;margin-bottom:18px;}
+.chip-list{display:flex;flex-wrap:wrap;gap:10px;}
+.chip{
+  font-family:var(--mono);font-size:.78rem;padding:7px 12px;border:1px solid var(--line);
+  border-radius:20px;color:var(--text-dim);transition:.25s;
+}
+.chip:hover{border-color:var(--red);color:var(--text);}
+
+/* ---------- PROJETOS ---------- */
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px;}
+.filter-btn{
+  font-family:var(--mono);font-size:.78rem;padding:9px 16px;border:1px solid var(--line);
+  border-radius:20px;color:var(--text-dim);cursor:pointer;background:none;transition:.25s;
+}
+.filter-btn.active,.filter-btn:hover{border-color:var(--red);color:var(--red);}
+.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;}
+.project-card{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;padding:28px;
+  position:relative;overflow:hidden;transition:.35s;
+}
+.project-card::before{
+  content:'';position:absolute;inset:0;background:radial-gradient(circle at 90% 0%,var(--red-glow),transparent 55%);
+  opacity:0;transition:opacity .35s;
+}
+.project-card:hover{transform:translateY(-6px);border-color:var(--red-deep);box-shadow:0 20px 40px -20px rgba(0,0,0,.7);}
+.project-card:hover::before{opacity:1;}
+.project-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;}
+.project-card h3{font-family:var(--display);font-size:1.15rem;font-weight:600;}
+.lang-tag{font-family:var(--mono);font-size:.68rem;padding:4px 10px;border:1px solid var(--red-deep);color:var(--red);border-radius:20px;white-space:nowrap;}
+.project-card p{color:var(--text-dim);font-size:.9rem;line-height:1.65;font-weight:300;margin-bottom:20px;}
+.project-link{font-family:var(--mono);font-size:.78rem;color:var(--text);display:inline-flex;align-items:center;gap:8px;}
+.project-link:hover{color:var(--red);}
+.project-link svg{transition:.25s;}
+.project-link:hover svg{transform:translate(2px,-2px);}
+
+/* estatísticas do GitHub */
+.gh-panel{margin-top:44px;background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;padding:32px;}
+.gh-panel img{margin:0 auto;border-radius:8px;width:100%;}
+.gh-panel-head{text-align:center;margin-bottom:26px;}
+.gh-panel-head h3{font-family:var(--display);font-size:1.3rem;font-weight:600;display:inline-flex;align-items:center;gap:10px;}
+.gh-panel-head p{font-family:var(--mono);font-size:.78rem;color:var(--text-dim);margin-top:8px;}
+.gh-panel-head p a{color:var(--red);}
+.gh-mini-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;
+}
+.gh-mini{
+  text-align:center;padding:16px 10px;background:var(--bg-panel-alt);border:1px solid var(--line);border-radius:8px;
+}
+.gh-mini b{font-family:var(--display);font-size:1.6rem;display:block;color:var(--text);}
+.gh-mini span{font-family:var(--mono);font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;}
+.gh-images{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:start;}
+.gh-images img.img-error{display:none;}
+
+/* ---------- CONTATO ---------- */
+.contact-box{
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;
+  padding:60px;text-align:center;position:relative;overflow:hidden;
+}
+.contact-box::before{
+  content:'';position:absolute;width:340px;height:340px;background:var(--red-glow);
+  filter:blur(90px);top:-120px;right:-80px;
+}
+.contact-box h2{font-family:var(--display);font-size:clamp(1.8rem,3.6vw,2.6rem);margin-bottom:16px;position:relative;}
+.contact-box p{color:var(--text-dim);max-width:520px;margin:0 auto 34px;font-weight:300;position:relative;}
+.contact-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
+.social-container{
+  position:relative;margin-top:38px;padding-top:32px;border-top:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+}
+.social-label{font-family:var(--mono);font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;}
+.social-icons{display:flex;gap:14px;}
+.social-icon{
+  width:46px;height:46px;border-radius:50%;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;color:var(--text-dim);transition:.25s;
+}
+.social-icon:hover{border-color:var(--red);color:var(--red);box-shadow:0 0 20px var(--red-glow);transform:translateY(-3px);}
+
+footer{border-top:1px solid var(--line);padding:36px 0;text-align:center;font-family:var(--mono);font-size:.78rem;color:var(--text-dim);}
+footer span{color:var(--red);}
+
+/* ---------- AI WIDGET ---------- */
+.ai-toggle{
+  position:fixed;bottom:26px;right:26px;z-index:200;
+  width:60px;height:60px;border-radius:50%;background:var(--red);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px var(--red-glow);
+  transition:transform .25s;
+}
+.ai-toggle:hover{transform:scale(1.08);}
+.ai-panel{
+  position:fixed;bottom:100px;right:26px;z-index:200;width:360px;max-width:88vw;height:480px;
+  background:var(--bg-panel);border:1px solid var(--line);border-radius:14px;
+  display:none;flex-direction:column;overflow:hidden;box-shadow:0 30px 70px -20px rgba(0,0,0,.8);
+}
+.ai-panel.open{display:flex;}
+.ai-head{
+  padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;
+  background:var(--bg-panel-alt);
+}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);}
+.ai-head strong{font-family:var(--mono);font-size:.85rem;}
+.ai-head span{font-family:var(--mono);font-size:.68rem;color:var(--text-dim);display:block;}
+.ai-close{
+  margin-left:auto;background:none;border:none;color:var(--text-dim);cursor:pointer;
+  padding:6px;border-radius:6px;display:flex;transition:.2s;
+}
+.ai-close:hover{color:var(--red);background:rgba(226,35,61,.1);}
+.ai-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+.msg{font-family:var(--body);font-size:.85rem;line-height:1.55;padding:10px 14px;border-radius:10px;max-width:85%;}
+.msg.bot{background:var(--bg-panel-alt);color:var(--text);align-self:flex-start;border:1px solid var(--line);}
+.msg.user{background:var(--red);color:#0b0b0d;align-self:flex-end;font-weight:500;}
+.ai-input-row{display:flex;border-top:1px solid var(--line);}
+.ai-input-row input{
+  flex:1;background:none;border:none;color:var(--text);padding:14px 16px;font-family:var(--body);font-size:.85rem;outline:none;
+}
+.ai-input-row button{
+  background:none;border:none;color:var(--red);padding:0 18px;cursor:pointer;font-family:var(--mono);font-weight:600;
+}
+.ai-input-row button:disabled{opacity:.4;cursor:default;}
+.typing{display:flex;gap:4px;padding:4px 0;}
+.typing span{width:6px;height:6px;background:var(--red);border-radius:50%;animation:tblink 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes tblink{0%,80%,100%{opacity:.2;}40%{opacity:1;}}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:56px;}
+  .avatar-wrap{order:-1;}
+  .terminal-row{grid-template-columns:1fr;}
+  .avatar-ring{width:300px;height:300px;}
+  .avatar-emoji{font-size:7rem;}
+  .about-grid{grid-template-columns:1fr;}
+  .skills-groups{grid-template-columns:1fr 1fr;}
+  .work-grid{grid-template-columns:1fr 1fr;}
+  .gh-images{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .burger{display:flex;}
+  .contact-box{padding:40px 26px;}
+}
+@media (max-width:600px){
+  .container{padding:0 20px;}
+  nav{padding:16px 20px;}
+  .skills-groups{grid-template-columns:1fr;}
+  .work-grid{grid-template-columns:1fr;}
+  .gh-mini-stats{grid-template-columns:1fr 1fr;}
+  .avatar-ring{width:240px;height:240px;}
+  .avatar-wrap{transform:none;}
+  .avatar-emoji{font-size:5.6rem;}
+  .ai-panel{right:12px;bottom:90px;width:calc(100vw - 24px);}
+  .ai-toggle{right:16px;bottom:16px;}
+  section{padding:80px 0;}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">gisely<span>.dev</span></div>
+    <ul class="nav-links">
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#como-trabalho">Como trabalho</a></li>
+      <li><a href="#skills">Habilidades</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <a href="#contato" class="nav-cta">Contratar</a>
+    <button class="burger" id="burger"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#sobre">Sobre</a>
+    <a href="#como-trabalho">Como trabalho</a>
+    <a href="#skills">Habilidades</a>
+    <a href="#contato">Contato</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Disponível para vaga Jr</div>
+      <h1>Hi, my name is Gisely Oliveira.<br><em>Welcome</em>!</h1>
+      <p class="lead">Estudante de Engenharia de Software focada em Back-end. Java, orientação a objetos e APIs no dia a dia, em busca da primeira oportunidade como desenvolvedora Jr.</p>
+      <div class="hero-actions">
+        <a href="#projetos" class="btn btn-primary">Ver projetos →</a>
+        <a href="https://wa.me/5500000000000?text=Ol%C3%A1%20Gisely!%20Vi%20seu%20portf%C3%B3lio%20e%20quero%20conversar." target="_blank" class="btn btn-ghost btn-whats">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A8.86 8.86 0 0 0 12.03 4a8.94 8.94 0 0 0-7.75 13.4L3 21l3.7-1.24a8.9 8.9 0 0 0 5.33 1.75h.01c4.94 0 9-4.04 9-9a8.9 8.9 0 0 0-2.44-6.19zm-5.57 13.65h-.01a7.4 7.4 0 0 1-3.77-1.03l-.27-.16-2.8.94.94-2.72-.18-.28a7.4 7.4 0 0 1-1.14-3.95c0-4.1 3.35-7.44 7.47-7.44a7.4 7.4 0 0 1 5.28 2.2 7.35 7.35 0 0 1 2.19 5.25c0 4.11-3.36 7.19-7.71 7.19zm4.1-5.42c-.22-.11-1.32-.65-1.53-.73-.2-.08-.35-.11-.5.11-.15.22-.57.72-.7.87-.13.15-.26.17-.48.06-.22-.11-.94-.35-1.79-1.11-.66-.59-1.11-1.32-1.24-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.39.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.39-.06-.11-.5-1.21-.69-1.65-.18-.44-.36-.38-.5-.38h-.43c-.15 0-.39.06-.59.28-.2.22-.78.76-.78 1.85s.8 2.15.91 2.3c.11.15 1.57 2.4 3.8 3.36.53.23.94.36 1.26.47.53.17 1.01.14 1.39.09.42-.06 1.32-.54 1.5-1.06.19-.52.19-.96.13-1.06-.06-.09-.2-.15-.42-.26z"/></svg>
+          Falar no WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <div class="avatar-wrap">
+        <div class="avatar-ring">
+          <div class="avatar-scan"></div>
+          <div class="avatar-flip-wrap" id="avatarFlip" role="button" tabindex="0" aria-label="Mostrar ou ocultar ícone Java">
+            <div class="avatar-flip-inner">
+              <div class="avatar-face front">
+                <img class="avatar-photo" src="assets/gisely-profile.jpeg" alt="Foto de perfil de Gisely Oliveira">
+              </div>
+              <div class="avatar-face back">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Ícone Java">
+                  <circle cx="100" cy="100" r="98" fill="#1c1618"/>
+                  <g transform="translate(58,68)">
+                    <path d="M6 28h72v30a36 18 0 0 1-72 0z" fill="none" stroke="var(--red)" stroke-width="7" stroke-linejoin="round"/>
+                    <path d="M78 34h12a11 11 0 0 1 0 22H78" fill="none" stroke="var(--red)" stroke-width="7"/>
+                    <path d="M22 14q5-10 0-20M42 14q5-10 0-20M62 14q5-10 0-20" stroke="var(--red)" stroke-width="5" fill="none" stroke-linecap="round"/>
+                  </g>
+                  <text x="100" y="168" font-family="'JetBrains Mono',monospace" font-size="22" font-weight="700" fill="var(--red)" text-anchor="middle" letter-spacing="2">JAVA</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="curriculo-gisely-oliveira.pdf" target="_blank" class="btn btn-ghost btn-resume">Ver currículo ↓</a>
+      </div>
+    </div>
+  </div>
+  <div class="terminal-row" id="heroTerminals">
+    <div class="terminal languages-terminal" aria-label="Idiomas">
+      <div class="terminal-bar">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <span class="terminal-title">gisely@portfolio: ~</span>
+      </div>
+      <div class="terminal-body" id="languagesTermBody" aria-live="polite"></div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-num">Sobre</span>
+      <h2>Aprendendo a construir soluções que escalam.</h2>
+    </div>
+    <div class="about-grid reveal">
+      <p class="about-text">
+        Sou <strong>Gisely dos Santos de Oliveira</strong>, estudante de Engenharia de Software com foco em desenvolvimento <strong>Back-end</strong> e aprendizado contínuo.
+        Busco aprimorar minhas habilidades em programação, desenvolvimento de <strong>APIs</strong>, <strong>bancos de dados</strong> e boas práticas de software,
+        criando soluções eficientes e escaláveis enquanto evoluo profissionalmente.<br><br>
+        Meus projetos giram em torno de <strong>Java</strong> e <strong>Programação Orientada a Objetos</strong>, de sistemas bancários a RPGs de console, sempre praticando lógica,
+        estrutura e organização em camadas. Gosto de entender o problema antes de escrever a primeira linha de código: separar responsabilidades, pensar em classes coerentes
+        e só então implementar.<br><br>
+        Fora do código, estou sempre testando algo novo, uma linguagem diferente, uma integração entre Python e Java, um pequeno jogo educativo, porque acredito que
+        a melhor forma de aprender back-end é <strong>construindo</strong>, errando e refatorando. É esse ritmo que quero levar para o primeiro time em que eu entrar.
+      </p>
+      <div class="stat-col">
+        <div class="stat"><b id="statRepos">6</b><span>Repositórios públicos <em class="live-tag">● ao vivo</em></span></div>
+        <div class="stat"><b id="statFollowers">1</b><span>Seguidores no GitHub <em class="live-tag">● ao vivo</em></span></div>
+        <div class="stat"><b>Java</b><span>Linguagem principal</span></div>
+        <div class="stat"><b>Jr</b><span>Objetivo: primeira vaga back-end</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como-trabalho">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-num">Como trabalho</span>
+      <h2>O que eu levo pra dentro de um time.</h2>
+      <p>Ainda no início de carreira, mas já com hábitos que fazem diferença no dia a dia de um time de dev.</p>
+    </div>
+    <div class="skills-groups work-grid reveal">
+      <div class="skill-card">
+        <h3>Fundamentos primeiro</h3>
+        <p style="color:var(--text-dim);font-size:.88rem;line-height:1.6;font-weight:300;">Antes de sair escrevendo código, penso na estrutura: quais classes fazem sentido, como separar responsabilidades e onde cada regra de negócio deve morar.</p>
+      </div>
+      <div class="skill-card">
+        <h3>Prática constante</h3>
+        <p style="color:var(--text-dim);font-size:.88rem;line-height:1.6;font-weight:300;">Cada projeto no meu GitHub nasceu de uma dúvida real — POO, integração entre linguagens, lógica de jogo. Aprendo construindo, não só lendo.</p>
+      </div>
+      <div class="skill-card">
+        <h3>Feedback e evolução</h3>
+        <p style="color:var(--text-dim);font-size:.88rem;line-height:1.6;font-weight:300;">Refatoro o que já fiz quando encontro uma forma melhor. Prefiro código simples e legível a soluções complicadas só para parecer avançadas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-num">Habilidades técnicas</span>
+      <h2>Ferramentas que já uso na prática.</h2>
+      <p>Extraídas diretamente dos meus projetos e da minha rotina de estudo.</p>
+    </div>
+    <div class="skills-groups reveal">
+      <div class="skill-card">
+        <h3>Linguagens</h3>
+        <div class="chip-list">
+          <span class="chip">Java</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">Python</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Conceitos</h3>
+        <div class="chip-list">
+          <span class="chip">POO</span>
+          <span class="chip">Estruturas de dados</span>
+          <span class="chip">APIs</span>
+          <span class="chip">Lógica de programação</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Em evolução</h3>
+        <div class="chip-list">
+          <span class="chip">Bancos de dados</span>
+          <span class="chip">Boas práticas</span>
+          <span class="chip">Arquitetura de software</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projetos">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-num">Projetos</span>
+      <h2>Direto do meu GitHub.</h2>
+      <p>Seis repositórios praticando lógica, POO e integração - filtre por linguagem.</p>
+    </div>
+    <div class="filter-bar reveal" id="filterBar"></div>
+    <div class="project-grid reveal" id="projectGrid"></div>
+
+    <div class="gh-panel reveal">
+      <div class="gh-panel-head">
+        <h3>Estatísticas do GitHub <span class="live-tag">● ao vivo</span></h3>
+        <p>Atualizado automaticamente a partir do perfil <a href="https://github.com/Gisely-dev" target="_blank">@Gisely-dev</a></p>
+      </div>
+      <div class="gh-mini-stats" id="ghMiniStats">
+        <div class="gh-mini"><b id="ghRepos">6</b><span>repositórios</span></div>
+        <div class="gh-mini"><b id="ghFollowers">1</b><span>seguidores</span></div>
+        <div class="gh-mini"><b id="ghFollowing">1</b><span>seguindo</span></div>
+        <div class="gh-mini"><b id="ghGists">0</b><span>gists</span></div>
+      </div>
+      <div class="gh-images" id="ghImages">
+        <img id="ghImgStats" src="https://github-readme-stats.vercel.app/api?username=Gisely-dev&show_icons=true&bg_color=16161a&title_color=e2233d&text_color=f5f3f0&icon_color=e2233d&border_color=2a2226&hide_border=false" alt="Estatísticas do GitHub de Gisely-dev" loading="lazy">
+        <img id="ghImgLangs" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Gisely-dev&layout=compact&bg_color=16161a&title_color=e2233d&text_color=f5f3f0&border_color=2a2226&hide_border=false" alt="Linguagens mais usadas por Gisely-dev" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="container">
+    <div class="contact-box reveal">
+      <h2>Vamos conversar?</h2>
+      <p>Aberta a oportunidades como Desenvolvedora Back-end Jr. Confira meus projetos ou entre em contato pelas redes abaixo.</p>
+      <div class="contact-actions">
+        <a href="https://github.com/Gisely-dev" target="_blank" class="btn btn-primary">GitHub →</a>
+        <a href="https://www.linkedin.com/in/gisely-oliveira-9a9a28362" target="_blank" class="btn btn-ghost">LinkedIn →</a>
+        <a href="mailto:gisely.dev@gmail.com" class="btn btn-ghost">Gmail →</a>
+      </div>
+
+      <div class="social-container">
+        <span class="social-label">Redes sociais</span>
+        <div class="social-icons">
+          <a href="https://instagram.com/gisely.dev" target="_blank" class="social-icon" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://tiktok.com/@gisely.dev" target="_blank" class="social-icon" aria-label="TikTok">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82a4.28 4.28 0 0 1-3.14-1.4A4.3 4.3 0 0 1 12.3 1h-3.1v14.2a2.6 2.6 0 1 1-1.84-2.49v-3.2a5.8 5.8 0 1 0 5 5.75V8.35a7.24 7.24 0 0 0 4.24 1.36V6.6a4.24 4.24 0 0 1-.9-.78z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Feito por <span>Gisely Oliveira</span> · 2026
+</footer>
+
+<!-- Assistente de IA -->
+<button class="ai-toggle" id="aiToggle" aria-label="Abrir assistente de IA">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0b0b0d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-head">
+    <span class="ai-dot"></span>
+    <div>
+      <strong>Assistente da Gisely</strong>
+      <span>pergunte sobre habilidades, projetos e trajetória</span>
+    </div>
+    <button class="ai-close" id="aiClose" aria-label="Fechar chat">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="ai-messages" id="aiMessages">
+    <div class="msg bot">Oi! Posso contar mais sobre os projetos, as habilidades ou a trajetória da Gisely. O que você quer saber?</div>
+  </div>
+  <div class="ai-input-row">
+    <input type="text" id="aiInput" placeholder="Pergunte algo sobre a Gisely..." onkeydown="if(event.key==='Enter')sendAI()">
+    <button id="aiSend" onclick="sendAI()">Enviar</button>
+  </div>
+</div>
+
+<script>
+/* ---------- DADOS ---------- */
+const projects = [
+  {name:"sistema-bancario", desc:"Sistema bancário em Java com POO e ArrayList, simulando múltiplas contas e operações bancárias.", lang:"Java", url:"https://github.com/Gisely-dev/sistema-bancario"},
+  {name:"FantasyQuest-Java", desc:"RPG de console em Java com POO: criação de personagem, inimigos e organização em camadas.", lang:"Java", url:"https://github.com/Gisely-dev/FantasyQuest-Java"},
+  {name:"calculadora-java", desc:"Calculadora em Java desenvolvida para praticar orientação a objetos, laços e controle de fluxo.", lang:"Java", url:"https://github.com/Gisely-dev/calculadora-java"},
+  {name:"Armazenar-Produtos", desc:"Aplicação Java para gerenciamento de produtos, com cadastro e consulta, aplicando POO.", lang:"Java", url:"https://github.com/Gisely-dev/Armazenar-Produtos"},
+  {name:"edu-games", desc:"Jogo educacional de matemática básica voltado para crianças e adolescentes.", lang:"JavaScript", url:"https://github.com/Gisely-dev/edu-games"},
+  {name:"gesture-scanner", desc:"Reconhecimento de gestos em Python integrado a uma API em Java, com retorno de imagem.", lang:"Python", url:"https://github.com/Gisely-dev/gesture-scanner"},
+];
+
+const arrowIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M7 7h10v10"/></svg>';
+
+function renderProjects(filter){
+  const grid = document.getElementById('projectGrid');
+  grid.innerHTML = projects
+    .filter(p => filter === 'Todos' || p.lang === filter)
+    .map(p => `
+      <div class="project-card">
+        <div class="project-top">
+          <h3>${p.name}</h3>
+          <span class="lang-tag">${p.lang}</span>
+        </div>
+        <p>${p.desc}</p>
+        <a class="project-link" href="${p.url}" target="_blank">Ver no GitHub ${arrowIcon}</a>
+      </div>
+    `).join('');
+}
+
+function renderFilters(){
+  const langs = ['Todos', ...new Set(projects.map(p => p.lang))];
+  const bar = document.getElementById('filterBar');
+  bar.innerHTML = langs.map((l,i) => `<button class="filter-btn ${i===0?'active':''}" data-lang="${l}">${l}</button>`).join('');
+  bar.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      bar.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProjects(btn.dataset.lang);
+    });
+  });
+}
+renderFilters();
+renderProjects('Todos');
+
+/* ---------- EFEITO DE DIGITAÇÃO DO TERMINAL ---------- */
+(function(){
+  const heroTerminals = document.getElementById('heroTerminals');
+  const term = document.createElement('div');
+  term.className = 'terminal';
+  term.innerHTML = `
+    <div class="terminal-bar">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <span class="terminal-title">gisely@portfolio: ~</span>
+    </div>
+    <div class="terminal-body" id="termBody"></div>`;
+  heroTerminals.prepend(term);
+
+  const lines = [
+    {p:'$ ', t:'quem-sou-eu', cls:'t-value'},
+    {p:'', t:'Gisely dos Santos de Oliveira', cls:'t-line'},
+    {p:'$ ', t:'cargo --alvo', cls:'t-value'},
+    {p:'', t:'Desenvolvedora Back-end Jr', cls:'t-line'},
+    {p:'$ ', t:'tecnologias --lista', cls:'t-value'},
+    {p:'', t:'Java · POO · APIs · Bancos de dados', cls:'t-line'},
+    {p:'$ ', t:'situação', cls:'t-value'},
+    {p:'', t:'pronta para o primeiro desafio ✅', cls:'t-line'},
+  ];
+  const body = term.querySelector('#termBody');
+  let li = 0;
+  function typeLine(){
+    if(li >= lines.length){ body.insertAdjacentHTML('beforeend', '<span class="cursor"></span>'); return; }
+    const line = lines[li];
+    const row = document.createElement('div');
+    row.innerHTML = (line.p ? `<span class="t-prompt">${line.p}</span>` : '');
+    body.appendChild(row);
+    const span = document.createElement('span');
+    span.className = line.cls;
+    row.appendChild(span);
+    let ci = 0;
+    const iv = setInterval(() => {
+      span.textContent += line.t[ci];
+      ci++;
+      if(ci >= line.t.length){
+        clearInterval(iv);
+        li++;
+        setTimeout(typeLine, 260);
+      }
+    }, 22);
+  }
+  setTimeout(typeLine, 500);
+})();
+
+/* ---------- EFEITO DE DIGITAÇÃO DOS IDIOMAS ---------- */
+(function(){
+  const body = document.getElementById('languagesTermBody');
+  const lines = [
+    {p:'$ ', t:'idiomas --listar', cls:'t-value'},
+    {p:'', t:'Português (brasileiro): nativo', cls:'t-line'},
+    {p:'', t:'Português (Portugal): intermediário', cls:'t-line'},
+    {p:'', t:'Espanhol: avançado', cls:'t-line'},
+    {p:'', t:'Inglês: básico', cls:'t-line'},
+    {p:'', t:'Italiano: em desenvolvimento', cls:'t-line'},
+  ];
+  let lineIndex = 0;
+  function typeLine(){
+    if(lineIndex >= lines.length){
+      body.insertAdjacentHTML('beforeend', '<span class="cursor"></span>');
+      return;
+    }
+    const line = lines[lineIndex];
+    const row = document.createElement('div');
+    row.innerHTML = line.p ? `<span class="t-prompt">${line.p}</span>` : '';
+    body.appendChild(row);
+    const span = document.createElement('span');
+    span.className = line.cls;
+    row.appendChild(span);
+    let characterIndex = 0;
+    const typing = setInterval(() => {
+      span.textContent += line.t[characterIndex];
+      characterIndex++;
+      if(characterIndex >= line.t.length){
+        clearInterval(typing);
+        lineIndex++;
+        setTimeout(typeLine, 180);
+      }
+    }, 18);
+  }
+  setTimeout(typeLine, 900);
+})();
+
+/* ---------- SCROLL REVEAL ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in-view'); });
+}, {threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ---------- ESTATÍSTICAS DO GITHUB EM TEMPO REAL ---------- */
+async function loadGithubStats(){
+  const repoEl = document.getElementById('statRepos');
+  const followEl = document.getElementById('statFollowers');
+  const ghRepos = document.getElementById('ghRepos');
+  const ghFollowers = document.getElementById('ghFollowers');
+  const ghFollowing = document.getElementById('ghFollowing');
+  const ghGists = document.getElementById('ghGists');
+  try{
+    const res = await fetch('https://api.github.com/users/Gisely-dev');
+    if(!res.ok) throw new Error('erro na API do GitHub');
+    const data = await res.json();
+    repoEl.textContent = data.public_repos ?? repoEl.textContent;
+    followEl.textContent = data.followers ?? followEl.textContent;
+    if(ghRepos) ghRepos.textContent = data.public_repos ?? ghRepos.textContent;
+    if(ghFollowers) ghFollowers.textContent = data.followers ?? ghFollowers.textContent;
+    if(ghFollowing) ghFollowing.textContent = data.following ?? ghFollowing.textContent;
+    if(ghGists) ghGists.textContent = data.public_gists ?? ghGists.textContent;
+  }catch(err){
+    // mantém os valores já preenchidos no HTML como alternativa
+  }
+}
+loadGithubStats();
+
+document.querySelectorAll('#ghImages img').forEach(img => {
+  img.addEventListener('error', () => {
+    img.classList.add('img-error');
+  }, { once:true });
+});
+
+/* ---------- VIRAR FOTO DE PERFIL ---------- */
+const avatarFlip = document.getElementById('avatarFlip');
+function toggleAvatar(){ avatarFlip.classList.toggle('flipped'); }
+avatarFlip.addEventListener('click', toggleAvatar);
+avatarFlip.addEventListener('keydown', event => {
+  if(event.key === 'Enter' || event.key === ' '){
+    event.preventDefault();
+    toggleAvatar();
+  }
+});
+
+/* ---------- MENU MOBILE ---------- */
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+/* ---------- ASSISTENTE DE IA ---------- */
+const aiToggle = document.getElementById('aiToggle');
+const aiPanel = document.getElementById('aiPanel');
+const aiMessages = document.getElementById('aiMessages');
+const aiInput = document.getElementById('aiInput');
+const aiSend = document.getElementById('aiSend');
+
+const aiClose = document.getElementById('aiClose');
+aiToggle.addEventListener('click', () => aiPanel.classList.toggle('open'));
+aiClose.addEventListener('click', () => aiPanel.classList.remove('open'));
+
+function openAI(prefill){
+  aiPanel.classList.add('open');
+  if(prefill){ aiInput.value = prefill; sendAI(); }
+}
+
+const SYSTEM_CONTEXT = `Você é o assistente de portfólio de Gisely dos Santos de Oliveira. Responda SEMPRE em português, de forma breve, direta e simpática, como se estivesse ajudando um recrutador a conhecê-la melhor.
+
+Dados sobre Gisely:
+- Nome completo: Gisely dos Santos de Oliveira
+- Objetivo: vaga de Desenvolvedora Back-end Jr
+- Formação: estudante de Engenharia de Software
+- Bio: "Sou estudante de Engenharia de Software, com foco em desenvolvimento Back-end e aprendizado contínuo. Busco aprimorar minhas habilidades em programação, desenvolvimento de APIs, bancos de dados e boas práticas de software, criando soluções eficientes e escaláveis enquanto evoluo profissionalmente."
+- Habilidades: Java, JavaScript, Python, Programação Orientada a Objetos (POO), Estruturas de dados, APIs, Lógica de programação, Bancos de dados (em evolução), Boas práticas de software
+- GitHub: https://github.com/Gisely-dev
+- LinkedIn: https://www.linkedin.com/in/gisely-oliveira-9a9a28362
+
+Projetos (todos no GitHub dela):
+1. sistema-bancario (Java) — Sistema bancário com POO e ArrayList, simulando múltiplas contas e operações bancárias.
+2. FantasyQuest-Java (Java) — RPG de console com POO: criação de personagem, inimigos e organização em camadas.
+3. calculadora-java (Java) — Calculadora para praticar POO, laços e controle de fluxo.
+4. Armazenar-Produtos (Java) — Gerenciamento de produtos com cadastro e consulta, aplicando POO.
+5. edu-games (JavaScript) — Jogo educacional de matemática básica para crianças e adolescentes.
+6. gesture-scanner (Python + API Java) — Reconhecimento de gestos com retorno de imagem.
+
+Se perguntarem algo fora desse escopo (não relacionado à Gisely, sua carreira ou seus projetos), responda educadamente que você só pode falar sobre o perfil profissional dela. Nunca invente informações que não estão nesta lista.`;
+
+async function sendAI(){
+  const text = aiInput.value.trim();
+  if(!text) return;
+  aiInput.value = '';
+  aiSend.disabled = true;
+
+  aiMessages.insertAdjacentHTML('beforeend', `<div class="msg user">${escapeHTML(text)}</div>`);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+
+  const typingEl = document.createElement('div');
+  typingEl.className = 'msg bot';
+  typingEl.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  aiMessages.appendChild(typingEl);
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+
+  let requestTimeout;
+  try{
+    const controller = new AbortController();
+    requestTimeout = setTimeout(() => controller.abort(), 25_000);
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      signal: controller.signal,
+      body: JSON.stringify({
+        message: text
+      })
+    });
+    clearTimeout(requestTimeout);
+    const data = await response.json();
+    if(!response.ok) throw new Error(data.error || 'Erro ao responder');
+    const reply = data.reply || 'Não consegui pensar em uma resposta agora — tenta reformular a pergunta?';
+    typingEl.outerHTML = `<div class="msg bot">${escapeHTML(reply)}</div>`;
+  }catch(err){
+    clearTimeout(requestTimeout);
+    const message = err.name === 'AbortError'
+      ? 'A resposta demorou demais. Tente novamente.'
+      : (err.message || 'Não consegui me conectar agora. Tente novamente em alguns instantes.');
+    typingEl.outerHTML = `<div class="msg bot">${escapeHTML(message)}</div>`;
+  }
+  aiMessages.scrollTop = aiMessages.scrollHeight;
+  aiSend.disabled = false;
+}
+
+function escapeHTML(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+</script>
+</body>
+</html>
